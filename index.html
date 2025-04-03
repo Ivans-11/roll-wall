@@ -89,9 +89,50 @@
             border: none;
             cursor: pointer;
             margin-left: 5px;
+            border-radius: 5px;
         }
         .bold-text {
             font-weight: bold;
+        }
+        .exempted {
+            text-decoration: line-through;
+            color: #888;
+        }
+        .exempt-select {
+            width: calc(100% - 200px);
+            padding: 8px;
+            margin: 10px 10px 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            display: inline-block;
+        }
+        .comp-button {
+            margin: 10px 0;
+            padding: 5px 10px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        .comp-button:hover {
+            background: #218838;
+        }
+        .clue-select {
+            width: calc(100% - 200px);
+            padding: 8px;
+            margin: 10px 10px 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            display: inline-block;
+        }
+        .clue-text {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 3px solid #007BFF;
         }
     </style>
     <script>
@@ -108,6 +149,276 @@
             let input = document.getElementById('rule010Input').value;
             document.getElementById('rule010Content').innerText = input;
             document.getElementById('rule010Input').value = '';
+        }
+        function showExemptionOptions() {
+            // 检查是否已经创建过选择框
+            if (document.querySelector('.exempt-select')) {
+                return;
+            }
+            const select = document.createElement('select');
+            select.className = 'exempt-select';
+            select.innerHTML = `
+                <option value="">请选择要豁免的规则...</option>
+                <option value="rule001">001 不问别离</option>
+                <option value="rule002">002 底线的试探</option>
+                <option value="rule003">003 面具之下</option>
+                <option value="rule004">004 午夜休铃</option>
+                <option value="rule005">005 朝闻道</option>
+                <option value="rule006">006 七日谈</option>
+                <option value="rule007">007 无尽的轮回</option>
+                <option value="rule008">008 真相始于足下</option>
+                <option value="rule010">010 作茧自缚</option>
+            `;
+            
+            const button = document.createElement('button');
+            button.className = 'comp-button';
+            button.textContent = '确认豁免';
+            button.onclick = function() {
+                const selectedRule = select.value;
+                if (selectedRule) {
+                    // 获取规则标题和内容元素
+                    const ruleTitle = document.querySelector(`.rule[onclick*="${selectedRule}"]`);
+                    const ruleContent = document.getElementById(selectedRule);
+                    
+                    // 添加豁免样式
+                    ruleTitle.classList.add('exempted');
+                    if (ruleContent) {
+                        ruleContent.classList.add('exempted');
+                    }
+                    
+                    alert(`规则 ${selectedRule} 已被豁免24小时！`);
+                    // 移除选择框、确认按钮和完成按钮
+                    select.remove();
+                    button.remove();
+                    // 移除完成按钮
+                    const completeButton = document.querySelector('#rule009 .comp-button');
+                    if (completeButton) {
+                        completeButton.remove();
+                    }
+                }
+            };
+
+            const container = document.getElementById('rule009');
+            container.appendChild(select);
+            container.appendChild(button);
+        }
+        function showClueOptions() {
+            // 检查是否已经创建过选择框
+            if (document.querySelector('.clue-select')) {
+                return;
+            }
+
+            const select = document.createElement('select');
+            select.className = 'clue-select';
+            select.innerHTML = `
+                <option value="">请选择要查看线索的规则...</option>
+                <option value="rule006">006 七日谈</option>
+                <option value="rule007">007 无尽的轮回</option>
+            `;
+            
+            const button = document.createElement('button');
+            button.className = 'comp-button';
+            button.textContent = '查看线索';
+            button.onclick = function() {
+                const selectedRule = select.value;
+                if (selectedRule) {
+                    // 检查是否已经显示过线索
+                    const existingClues = document.querySelectorAll(`#${selectedRule} .clue-text`);
+                    const clueCount = existingClues.length;
+                    
+                    if (clueCount >= 2) {
+                        alert('该规则的所有线索都已显示！');
+                        return;
+                    }
+                    
+                    // 线索内容
+                    const clues = {
+                        rule006: [
+                            "线索1：手足同步",
+                            "线索2：走到哪里，底线就在哪里"
+                        ],
+                        rule007: [
+                            "线索1：问得越多，藏得越深",
+                            "线索2：我的话你不懂，因为你话太多了"
+                        ]
+                    };
+                    
+                    // 显示下一条线索
+                    const nextClue = clues[selectedRule][clueCount];
+                    
+                    // 创建线索显示区域
+                    const clueDiv = document.createElement('div');
+                    clueDiv.className = 'clue-text';
+                    clueDiv.textContent = nextClue;
+                    
+                    // 移除选择框和按钮
+                    select.remove();
+                    button.remove();
+                    
+                    // 添加线索到规则内容中
+                    const ruleContent = document.getElementById(selectedRule);
+                    if (ruleContent) {
+                        ruleContent.appendChild(clueDiv);
+                    }
+                    
+                    // 如果规则内容未展开，则展开它
+                    if (ruleContent.classList.contains('hidden')) {
+                        revealRule(selectedRule);
+                    }
+                }
+            };
+
+            const container = document.getElementById('rule008');
+            container.appendChild(select);
+            container.appendChild(button);
+        }
+        function showRule003Fragment() {
+            const fragments = [
+                "碎片1：窗外的气温来找你了，你想它了吗",
+                "碎片2：阳光在等你，不要忘了它",
+                "碎片3：空调睡着了，不要打扰它",
+                "碎片4：周末的风轻轻吹过，记得感受它的拥抱"
+            ];
+            
+            const rule003Content = document.getElementById('rule003Content');
+            const button = document.querySelector('#rule003 .comp-button');
+            const currentText = rule003Content.innerHTML;
+            
+            // 检查是否已经显示过所有碎片
+            if (currentText.includes("内容已解密")) {
+                alert("所有碎片都已显示！");
+                return;
+            }
+            
+            // 检查当前显示的碎片数量
+            let fragmentCount = 0;
+            for (const fragment of fragments) {
+                if (currentText.includes(fragment)) {
+                    fragmentCount++;
+                }
+            }
+            
+            // 显示下一条碎片
+            if (fragmentCount < fragments.length) {
+                const newFragment = fragments[fragmentCount];
+                const clueDiv = document.createElement('div');
+                clueDiv.className = 'clue-text';
+                clueDiv.textContent = newFragment;
+                rule003Content.appendChild(clueDiv);
+                
+                // 如果这是最后一条碎片，显示完整规则
+                if (fragmentCount === fragments.length - 1) {
+                    setTimeout(() => {
+                        // 保存所有已显示的碎片
+                        const existingClues = rule003Content.querySelectorAll('.clue-text');
+                        const cluesHTML = Array.from(existingClues).map(clue => clue.outerHTML).join('');
+                        
+                        // 创建碎片容器
+                        const cluesContainer = document.createElement('div');
+                        cluesContainer.id = 'rule003Clues';
+                        cluesContainer.style.display = 'none';
+                        cluesContainer.innerHTML = cluesHTML;
+                        
+                        // 创建切换按钮
+                        const toggleButton = document.createElement('button');
+                        toggleButton.className = 'comp-button';
+                        toggleButton.textContent = '显示碎片';
+                        toggleButton.onclick = function() {
+                            const isHidden = cluesContainer.style.display === 'none';
+                            cluesContainer.style.display = isHidden ? 'block' : 'none';
+                            toggleButton.textContent = isHidden ? '隐藏碎片' : '显示碎片';
+                        };
+                        
+                        // 更新内容
+                        rule003Content.innerHTML = "内容已解密：<b>若连续两周周末未外出游玩，家中空调将停止工作。</b>";
+                        rule003Content.appendChild(toggleButton);
+                        rule003Content.appendChild(cluesContainer);
+                        
+                        // 移除原来的查看碎片按钮
+                        button.remove();
+                    }, 2000);
+                }
+            }
+        }
+        function submitRule006Guess() {
+            const guess = prompt("请输入你对规则006的猜测：");
+            if (guess && guess.includes("002") && guess.includes("步数")) {
+                const rule006Content = document.getElementById('rule006');
+                // 保存所有已显示的线索
+                const existingClues = rule006Content.querySelectorAll('.clue-text');
+                const cluesHTML = Array.from(existingClues).map(clue => clue.outerHTML).join('');
+                rule006Content.innerHTML = "本周规则已解密：<b>002中设置的阈值，由前一日走路步数决定。</b>" + cluesHTML;
+                
+                // 添加豁免样式
+                const rule006Title = document.querySelector('.rule[onclick*="rule006"]');
+                rule006Title.classList.add('exempted');
+                rule006Content.classList.add('exempted');
+                
+                // 移除提交按钮
+                const submitButton = document.querySelector('#rule006 .comp-button');
+                if (submitButton) {
+                    submitButton.remove();
+                }
+            } else {
+                alert("猜测不正确，请继续尝试！");
+            }
+        }
+        function submitRule007Guess() {
+            const guess = prompt("请输入你对规则007的猜测：");
+            if (guess && 
+                (guess.includes("AI") || guess.includes("聊天") || guess.includes("对话")) &&
+                (guess.includes("编码") || guess.includes("解码") || guess.includes("乱码") || guess.includes("输出"))) {
+                
+                const rule007Content = document.getElementById('rule007');
+                // 保存所有已显示的线索
+                const existingClues = rule007Content.querySelectorAll('.clue-text');
+                const cluesHTML = Array.from(existingClues).map(clue => clue.outerHTML).join('');
+                
+                // 创建选择框
+                const select = document.createElement('select');
+                select.className = 'clue-select';
+                select.innerHTML = `
+                    <option value="">请选择奖励...</option>
+                    <option value="exempt">三天豁免权</option>
+                    <option value="fragment">003碎片</option>
+                `;
+
+                const button = document.createElement('button');
+                button.className = 'comp-button';
+                button.textContent = '确认选择';
+                button.onclick = function() {
+                    if (select.value === 'exempt') {
+                        // 添加豁免样式
+                        const rule007Title = document.querySelector('.rule[onclick*="rule007"]');
+                        rule007Title.classList.add('exempted');
+                        rule007Content.classList.add('exempted');
+                        alert("规则007已获得三天豁免权！");
+                        select.remove();
+                        button.remove();
+                    } else if (select.value === 'fragment') {
+                        showRule003Fragment();
+                        // 如果规则内容未展开，则展开它
+                        const ruleContent = document.getElementById("rule003");
+                        if (ruleContent.classList.contains('hidden')) {
+                            revealRule("rule003");
+                        }
+                        select.remove();
+                        button.remove();
+                    }
+                };
+                
+                rule007Content.innerHTML = "本轮内容已解密：<b>如果1天使用AI聊天对话超过100轮，得到的回答将不会被解码，而以编码形式输出。</b>" + cluesHTML;
+                rule007Content.appendChild(select);
+                
+                // 移除提交按钮
+                const submitButton = document.querySelector('#rule007 .comp-button');
+                if (submitButton) {
+                    submitButton.remove();
+                }
+                rule007Content.appendChild(button);
+            } else {
+                alert("猜测不正确，请继续尝试！");
+            }
         }
     </script>
 </head>
@@ -134,25 +445,40 @@
         <h1>规则手册</h1>
         <p>欢迎来到<b onclick="showPopup()" style="color: #007BFF;">观测者</b>的世界，请遵守以下规则：</p>
         <div class="rule" onclick="revealRule('rule000')">000 迷雾之墙</div>
-        <p id="rule000" class="hidden"><b>不是所有规则都对你展示，你需要自己去探索。</b>当你触发某项未知规则受到惩罚时，我们将告知你对应规则的编号，但不透露具体内容。</p>
+            <p id="rule000" class="hidden"><b>不是所有规则都对你展示，你需要自己去探索。</b>当你触发某项未知规则受到惩罚时，我们将告知你对应规则的编号，但不透露具体内容。</p>
         <div class="rule" onclick="revealRule('rule001')">001 不问别离</div>
-        <p id="rule001" class="hidden"><b>当你连续工作超过1小时而进展缓慢，须进行10分钟漫步。</b>如果你不离开，我们会让你离开。</p>
+            <p id="rule001" class="hidden"><b>当你连续工作超过1小时而进展缓慢，须进行10分钟漫步。</b>如果你不离开，我们会让你离开。</p>
         <div class="rule" onclick="revealRule('rule002')">002 底线的试探</div>
-        <p id="rule002" class="hidden"><b>你不可能在社交媒体中点击屏幕超过200次。</b>如果你不相信，你可以试试。</p>
+            <p id="rule002" class="hidden"><b>你不可能在社交媒体中点击屏幕超过200次。</b>如果你不相信，你可以试试。</p>
         <div class="rule" onclick="revealRule('rule003')">003 面具之下</div>
-        <p id="rule003" class="hidden"><b>本规则具体内容未解密。</b>若3天内未违反包括本规则在内的任何规则，将得到一份关于本规则的碎片。集齐4份碎片后，你将获得真相</p>
+            <p id="rule003" class="hidden">
+                <span id="rule003Content"><b>本规则具体内容未解密。</b>若3天内未违反包括本规则在内的任何规则，将得到一份关于本规则的碎片。集齐4份碎片后，你将获得真相</span>
+                <button class="comp-button" onclick="showRule003Fragment()">查看碎片</button>
+            </p>
         <div class="rule" onclick="revealRule('rule004')">004 午夜休铃</div>
-        <p id="rule004" class="hidden">若违背001或002累计3次，将激活本规则，每次激活后生效时间为24小时。规则内容为：<b>0点之后，不要留恋手机，请记住，舍才有得。</b></p>
+            <p id="rule004" class="hidden">若违背001或002累计3次，将激活本规则，每次激活后生效时间为24小时。规则内容为：<b>0点之后，不要留恋手机，请记住，舍才有得。</b></p>
         <div class="rule" onclick="revealRule('rule005')">005 朝闻道</div>
-        <p id="rule005" class="hidden">本规则每天早上更新，今日内容为：<b>9点之后的早餐不叫早餐。</b></p>
+            <p id="rule005" class="hidden">本规则每天早上更新，今日内容为：<b>9点之后的早餐不叫早餐。</b></p>
         <div class="rule" onclick="revealRule('rule006')">006 七日谈</div>
-        <p id="rule006" class="hidden"><b>本规则每周更新，具体内容未解密，会在下次更新前公布。</b>可自行探索触发条件，在公布前可将猜测提交到系统，若答对则可获得本规则豁免权。豁免权在下次更新后收回。</p>
+            <p id="rule006" class="hidden">
+                <b>本规则每周更新，具体内容未解密，会在下次更新前公布。</b>可自行探索触发条件，在公布前可将猜测提交到系统，若答对则可获得本规则豁免权。豁免权在下次更新后收回。
+                <button class="comp-button" onclick="submitRule006Guess()">提交猜测</button>
+            </p>
         <div class="rule" onclick="revealRule('rule007')">007 无尽的轮回</div>
-        <p id="rule007" class="hidden"><b>本规则具体内容未解密，需要你自行探索。</b>解密前任何时间都可以提交猜测，答对则予以解密。解密后你可选择：1.获得本规则的三天豁免权；2.关于003的碎片。三天后，新的规则将出现，挑战重新开始。</p>
+            <p id="rule007" class="hidden">
+                <b>本规则具体内容未解密，需要你自行探索。</b>解密前任何时间都可以提交猜测，答对则予以解密。解密后你可选择：1.获得本规则的三天豁免权；2.关于003的碎片。三天后，新的规则将出现，挑战重新开始。
+                <button class="comp-button" onclick="submitRule007Guess()">提交猜测</button>
+            </p>
         <div class="rule" onclick="revealRule('rule008')">008 真相始于足下</div>
-        <p id="rule008" class="hidden"><b>每日如果跑步超过3公里，或体育运动超过1小时，将获得一条关于006或007的线索。</b></p>
+            <p id="rule008" class="hidden">
+                <b>每日如果跑步超过3公里，或体育运动超过1小时，将获得一条关于006或007的线索。</b>
+                <button class="comp-button" onclick="showClueOptions()">完成</button>
+            </p>
         <div class="rule" onclick="revealRule('rule009')">009 高枕无忧</div>
-        <p id="rule009" class="hidden"><b>如果你睡眠超过8小时，则可获得任意一条规则豁免权1天。</b></p>
+            <p id="rule009" class="hidden">
+                <b>如果你睡眠超过8小时，则可获得任意一条规则豁免权1天。</b>
+                <button class="comp-button" onclick="showExemptionOptions()">完成</button>
+            </p>
         <div class="rule" onclick="revealRule('rule010')">010 作茧自缚</div>
         <div id="rule010" class="hidden">
             <p>这是一条属于你自己的规则，它的设定和执行完全由你掌控。</p>
