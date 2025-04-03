@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>规则手册</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .rule {
+            margin: 15px 0;
+            padding: 10px;
+            border-left: 5px solid #007BFF;
+            background: #eef;
+            cursor: pointer;
+        }
+        .hidden {
+            display: none;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .popup {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: left; /* 让正文左对齐 */
+            line-height: 1.6;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url('logo.png');
+            background-size: 400px auto;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .signature {
+            text-align: right; /* 让署名右对齐 */
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .popup button {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 20px;
+            border: none;
+            background: #007BFF;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .popup button:hover {
+            background: #0056b3;
+        }
+        .input-container {
+            margin-top: 10px;
+        }
+        .input-container input {
+            width: calc(100% - 90px);
+            padding: 5px;
+        }
+        .input-container button {
+            padding: 5px 10px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+        .bold-text {
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function revealRule(id) {
+            document.getElementById(id).classList.toggle('hidden');
+        }
+        function closePopup() {
+            document.getElementById('overlay').style.display = 'none';
+        }
+        function showPopup() {
+            document.getElementById('overlay').style.display = 'flex';
+        }
+        function updateRule010() {
+            let input = document.getElementById('rule010Input').value;
+            document.getElementById('rule010Content').innerText = input;
+            document.getElementById('rule010Input').value = '';
+        }
+    </script>
+</head>
+<body>
+    <div id="overlay" class="overlay">
+        <div class="popup">
+            <p><b>你终于来了。</b><br>当你点开这段文字，观测者便已记录下你的存在。<br></p>
+            <p><b>不要着急，</b><br>
+               当你阅读到这一行，即默认你已同意签署《观测者协议》。<br>
+               反悔无效。</p>
+            <p><b>不要害怕，</b><br>
+               因为协议只有一句话：<b>规则不可违抗，亦不可逃避。</b><br>
+               观测者将时刻监督你的协议履行情况，违背协议的人将付出代价。</p>
+            <p><b>不要沮丧，</b><br>
+               因为规则的存在不一定是坏事，每一条规则都有其深意。<br>
+               你不会无缘无故地看到一条规则，它的出现必然有其原因。<br>
+               而你的一举一动，都可能催生新的规则。</p>
+            <p><b>观测之瞳已睁开</b>，相信你很快会适应这里。</p>
+            <p class="signature">——国际观测者协会</p>
+            <button onclick="closePopup()">接受并继续</button>
+        </div>
+    </div>
+    <div class="container">
+        <h1>规则手册</h1>
+        <p>欢迎来到<b onclick="showPopup()" style="color: #007BFF;">观测者</b>的世界，请遵守以下规则：</p>
+        <div class="rule" onclick="revealRule('rule000')">000 迷雾之墙</div>
+        <p id="rule000" class="hidden"><b>不是所有规则都对你展示，你需要自己去探索。</b>当你触发某项未知规则受到惩罚时，我们将告知你对应规则的编号，但不透露具体内容。</p>
+        <div class="rule" onclick="revealRule('rule001')">001 不问别离</div>
+        <p id="rule001" class="hidden"><b>当你连续工作超过1小时而进展缓慢，须进行10分钟漫步。</b>如果你不离开，我们会让你离开。</p>
+        <div class="rule" onclick="revealRule('rule002')">002 底线的试探</div>
+        <p id="rule002" class="hidden"><b>你不可能在社交媒体中点击屏幕超过200次。</b>如果你不相信，你可以试试。</p>
+        <div class="rule" onclick="revealRule('rule003')">003 面具之下</div>
+        <p id="rule003" class="hidden"><b>本规则具体内容未解密。</b>若3天内未违反包括本规则在内的任何规则，将得到一份关于本规则的碎片。集齐4份碎片后，你将获得真相</p>
+        <div class="rule" onclick="revealRule('rule004')">004 午夜休铃</div>
+        <p id="rule004" class="hidden">若违背001或002累计3次，将激活本规则，每次激活后生效时间为24小时。规则内容为：<b>0点之后，不要留恋手机，请记住，舍才有得。</b></p>
+        <div class="rule" onclick="revealRule('rule005')">005 朝闻道</div>
+        <p id="rule005" class="hidden">本规则每天早上更新，今日内容为：<b>9点之后的早餐不叫早餐。</b></p>
+        <div class="rule" onclick="revealRule('rule006')">006 七日谈</div>
+        <p id="rule006" class="hidden"><b>本规则每周更新，具体内容未解密，会在下次更新前公布。</b>可自行探索触发条件，在公布前可将猜测提交到系统，若答对则可获得本规则豁免权。豁免权在下次更新后收回。</p>
+        <div class="rule" onclick="revealRule('rule007')">007 无尽的轮回</div>
+        <p id="rule007" class="hidden"><b>本规则具体内容未解密，需要你自行探索。</b>解密前任何时间都可以提交猜测，答对则予以解密。解密后你可选择：1.获得本规则的三天豁免权；2.关于003的碎片。三天后，新的规则将出现，挑战重新开始。</p>
+        <div class="rule" onclick="revealRule('rule008')">008 真相始于足下</div>
+        <p id="rule008" class="hidden"><b>每日如果跑步超过3公里，或体育运动超过1小时，将获得一条关于006或007的线索。</b></p>
+        <div class="rule" onclick="revealRule('rule009')">009 高枕无忧</div>
+        <p id="rule009" class="hidden"><b>如果你睡眠超过8小时，则可获得任意一条规则豁免权1天。</b></p>
+        <div class="rule" onclick="revealRule('rule010')">010 作茧自缚</div>
+        <div id="rule010" class="hidden">
+            <p>这是一条属于你自己的规则，它的设定和执行完全由你掌控。</p>
+            <p id="rule010Content" class="bold-text">你可根据自己的目标和需求，设定一条用于自我监督的规则。</p>
+            <div class="input-container">
+                <input type="text" id="rule010Input" placeholder="输入你的规则...">
+                <button onclick="updateRule010()">确认</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
