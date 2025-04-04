@@ -25,10 +25,16 @@
         }
         .rule {
             margin: 15px 0;
-            padding: 10px;
+            padding: 20px;
             border-left: 5px solid #007BFF;
             background: #eef;
             cursor: pointer;
+            font-size: large;
+            font-style: italic;
+            font-weight: bolder;
+            background-position: right;
+            background-repeat: no-repeat;
+            background-size: 10% 84%;
         }
         .hidden {
             display: none;
@@ -93,7 +99,7 @@
             border-radius: 5px;
         }
         .input-container button:hover {
-            background: #218838;
+            background: #0056b3;
         }
         .bold-text {
             font-weight: bold;
@@ -121,7 +127,7 @@
             display: inline-block;
         }
         .comp-button:hover {
-            background: #218838;
+            background: #0056b3;
         }
         .clue-select {
             width: calc(100% - 200px);
@@ -448,42 +454,42 @@
     <div class="container">
         <h1>规则墙</h1>
         <p>欢迎来到<b onclick="showPopup()" style="color: #007BFF;">观测者</b>的世界，请遵守以下规则：</p>
-        <div class="rule" onclick="revealRule('rule000')">000 迷雾之墙</div>
-            <p id="rule000" class="hidden"><b>不是所有规则都对你展示，你需要自己去探索。</b>当你触发某项未知规则受到惩罚时，我们将告知你对应规则的编号，但不透露具体内容。</p>
-        <div class="rule" onclick="revealRule('rule001')">001 不问别离</div>
-            <p id="rule001" class="hidden"><b>当你连续工作超过1小时而进展缓慢，须进行10分钟漫步。</b>如果你不离开，我们会让你离开。</p>
-        <div class="rule" onclick="revealRule('rule002')">002 底线的试探</div>
-            <p id="rule002" class="hidden"><b>你不可能在社交媒体中点击屏幕超过200次。</b>如果你不相信，你可以试试。</p>
-        <div class="rule" onclick="revealRule('rule003')">003 面具之下</div>
-            <p id="rule003" class="hidden">
-                <span id="rule003Content"><b>本规则具体内容未解密。</b>若3天内未违反包括本规则在内的任何规则，将得到一份关于本规则的碎片。集齐4份碎片后，你将获得真相</span>
-                <button class="comp-button" onclick="showRule003Fragment()">查看碎片</button>
-            </p>
-        <div class="rule" onclick="revealRule('rule004')">004 午夜休铃</div>
-            <p id="rule004" class="hidden">若违背001或002累计3次，将激活本规则，每次激活后生效时间为24小时。规则内容为：<b>0点之后，不要留恋手机，请记住，舍才有得。</b></p>
-        <div class="rule" onclick="revealRule('rule005')">005 朝闻道</div>
-            <p id="rule005" class="hidden">本规则每天早上更新，今日内容为：<b>9点之后的早餐不叫早餐。</b></p>
-        <div class="rule" onclick="revealRule('rule006')">006 七日谈</div>
-            <p id="rule006" class="hidden">
-                <b>本规则每周更新，具体内容未解密，会在下次更新前公布。</b>可自行探索触发条件，在公布前可将猜测提交到系统，若答对则可获得本规则豁免权。豁免权在下次更新后收回。
-                <button class="comp-button" onclick="submitRule006Guess()">提交猜测</button>
-            </p>
-        <div class="rule" onclick="revealRule('rule007')">007 无尽的轮回</div>
-            <p id="rule007" class="hidden">
-                <b>本规则具体内容未解密，需要你自行探索。</b>解密前任何时间都可以提交猜测，答对则予以解密。解密后你可选择：1.获得本规则的三天豁免权；2.关于003的碎片。三天后，新的规则将出现，挑战重新开始。
-                <button class="comp-button" onclick="submitRule007Guess()">提交猜测</button>
-            </p>
-        <div class="rule" onclick="revealRule('rule008')">008 真相始于足下</div>
-            <p id="rule008" class="hidden">
-                <b>每日如果跑步超过3公里，或体育运动超过1小时，将获得一条关于006或007的线索。</b>
-                <button class="comp-button" onclick="showClueOptions()">完成</button>
-            </p>
-        <div class="rule" onclick="revealRule('rule009')">009 高枕无忧</div>
-            <p id="rule009" class="hidden">
-                <b>如果你睡眠超过8小时，则可获得任意一条规则豁免权1天。</b>
-                <button class="comp-button" onclick="showExemptionOptions()">完成</button>
-            </p>
-        <div class="rule" onclick="revealRule('rule010')">010 作茧自缚</div>
+        <div class="rule" onclick="revealRule('rule000')" style="background-image: url(img/000.png);">000 迷雾之墙</div>
+        <p id="rule000" class="hidden"><b>不是所有规则都对你展示，你需要自己去探索。</b>当你触发某项未知规则受到惩罚时，我们将告知你对应规则的编号，但不透露具体内容。</p>
+        <div class="rule" onclick="revealRule('rule001')" style="background-image: url(img/001.png);">001 不问别离</div>
+        <p id="rule001" class="hidden"><b>当你连续工作超过1小时而进展缓慢，须进行10分钟漫步。</b>如果你不离开，我们会让你离开。</p>
+        <div class="rule" onclick="revealRule('rule002')" style="background-image: url(img/002.png);">002 底线的试探</div>
+        <p id="rule002" class="hidden"><b>你不可能在社交媒体中点击屏幕超过200次。</b>如果你不相信，你可以试试。</p>
+        <div class="rule" onclick="revealRule('rule003')" style="background-image: url(img/003.png);">003 面具之下</div>
+        <p id="rule003" class="hidden">
+            <span id="rule003Content"><b>本规则具体内容未解密。</b>若3天内未违反包括本规则在内的任何规则，将得到一份关于本规则的碎片。集齐4份碎片后，你将获得真相</span>
+            <button class="comp-button" onclick="showRule003Fragment()">查看碎片</button>
+        </p>
+        <div class="rule" onclick="revealRule('rule004')" style="background-image: url(img/004.png);">004 午夜休铃</div>
+        <p id="rule004" class="hidden">若违背001或002累计3次，将激活本规则，每次激活后生效时间为24小时。规则内容为：<b>0点之后，不要留恋手机，请记住，舍才有得。</b></p>
+        <div class="rule" onclick="revealRule('rule005')" style="background-image: url(img/005.png);">005 朝闻道</div>
+        <p id="rule005" class="hidden">本规则每天早上更新，今日内容为：<b>9点之后的早餐不叫早餐。</b></p>
+        <div class="rule" onclick="revealRule('rule006')" style="background-image: url(img/006.png);">006 七日谈</div>
+        <p id="rule006" class="hidden">
+            <b>本规则每周更新，具体内容未解密，会在下次更新前公布。</b>可自行探索触发条件，在公布前可将猜测提交到系统，若答对则可获得本规则豁免权。豁免权在下次更新后收回。
+            <button class="comp-button" onclick="submitRule006Guess()">提交猜测</button>
+        </p>
+        <div class="rule" onclick="revealRule('rule007')" style="background-image: url(img/007.png);">007 无尽的轮回</div>
+        <p id="rule007" class="hidden">
+            <b>本规则具体内容未解密，需要你自行探索。</b>解密前任何时间都可以提交猜测，答对则予以解密。解密后你可选择：1.获得本规则的三天豁免权；2.关于003的碎片。三天后，新的规则将出现，挑战重新开始。
+            <button class="comp-button" onclick="submitRule007Guess()">提交猜测</button>
+        </p>
+        <div class="rule" onclick="revealRule('rule008')" style="background-image: url(img/008.png);">008 真相始于足下</div>
+        <p id="rule008" class="hidden">
+            <b>每日如果跑步超过3公里，或体育运动超过1小时，将获得一条关于006或007的线索。</b>
+            <button class="comp-button" onclick="showClueOptions()">完成</button>
+        </p>
+        <div class="rule" onclick="revealRule('rule009')" style="background-image: url(img/009.png);">009 高枕无忧</div>
+        <p id="rule009" class="hidden">
+            <b>如果你睡眠超过8小时，则可获得任意一条规则豁免权1天。</b>
+            <button class="comp-button" onclick="showExemptionOptions()">完成</button>
+        </p>
+        <div class="rule" onclick="revealRule('rule010')" style="background-image: url(img/010.png);">010 作茧自缚</div>
         <div id="rule010" class="hidden">
             <p>这是一条属于你自己的规则，它的设定和执行完全由你掌控。</p>
             <p id="rule010Content" class="bold-text">你可根据自己的目标和需求，设定一条用于自我监督的规则。</p>
