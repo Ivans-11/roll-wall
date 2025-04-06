@@ -156,18 +156,28 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            padding: 10px 15px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             background: #007BFF;
             color: white;
             border: none;
-            border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             z-index: 1001;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
         }
         .switch-button:hover {
             background: #0056b3;
+            transform: scale(1.1);
+        }
+        .switch-button::before {
+            content: "☾";
         }
     </style>
     <script>
@@ -458,7 +468,7 @@
     </script>
 </head>
 <body>
-    <button class="switch-button" onclick="window.location.href='shadow.html'">切换到暗影版</button>
+    <button class="switch-button" onclick="window.location.href='shadow.html'" title="切换到暗影版"></button>
     <div id="overlay" class="overlay">
         <div class="popup">
             <p><b>你终于来了。</b><br>当你点开这段文字，观测者便已记录下你的存在。<br></p>

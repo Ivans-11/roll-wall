@@ -140,19 +140,28 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            padding: 10px 15px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             background: #444;
             color: #f0f0f0;
             border: none;
-            border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
             z-index: 1001;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
         }
         .switch-button:hover {
             background: #555;
+            transform: scale(1.1);
+        }
+        .switch-button::before {
+            content: "☀";
         }
         p {
             color: #d0d0d0;
@@ -268,7 +277,7 @@
     </script>
 </head>
 <body>
-    <button class="switch-button" onclick="window.location.href='index.html'">切换到光明版</button>
+    <button class="switch-button" onclick="window.location.href='index.html'" title="切换到光明版"></button>
     <div id="overlay" class="overlay">
         <div class="popup">
             <p>近日，多地发现<b>不明生物入侵</b>。据报道，该生物表现出进攻性拟态，通常潜伏于各类电子设备中，以图标、界面、声音等方式伪装为各类应用程序，<b>以观看者的注意力和时间为食。</b>该生物的真实意图和危险程度仍在调查中。</p>
