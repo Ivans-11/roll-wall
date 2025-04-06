@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <link rel="icon" href="img/ACC-logo-white.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>异常档案</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: rgba(30, 30, 30, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            background-image: url('img/title.png');
+            background-size: 20%;
+            background-position: center 0px;
+            background-repeat: no-repeat;
+            background-blend-mode: overlay;
+            border: 1px solid #333;
+        }
+        h1, h2 {
+            padding: 10px;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            color: #f0f0f0;
+        }
+        .rule {
+            margin: 15px 0;
+            padding: 18px;
+            border-left: 5px solid #4a4a4a;
+            background: #2a2a2a;
+            cursor: pointer;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            font-size: large;
+            font-style: italic;
+            font-weight: bolder;
+            background-position: 14px;
+            background-repeat: no-repeat;
+            background-size: 40px 42px;
+            color: #d0d0d0;
+            transition: all 0.3s ease;
+        }
+        .rule:hover {
+            background: #3a3a3a;
+            border-left: 5px solid #666;
+        }
+        .hidden {
+            display: none;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        .popup {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+            text-align: left;
+            text-indent: 2em;
+            line-height: 1.6;
+            background-image: url('img/ACC-logo.png');
+            background-size: 400px auto;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #e0e0e0;
+            border: 1px solid #444;
+        }
+        .signature {
+            text-align: right; /* 让署名右对齐 */
+            margin-top: 20px;
+            font-weight: bold;
+            color: #aaa;
+        }
+        .popup button {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 20px;
+            border: none;
+            background: #444;
+            color: #f0f0f0;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+        .popup button:hover {
+            background: #555;
+        }
+        .bold-text {
+            font-weight: bold;
+            color: #f0f0f0;
+        }
+        .exempted {
+            color: #666;
+            text-decoration: line-through;
+        }
+        .exempt-select {
+            width: calc(100% - 200px);
+            padding: 8px;
+            margin: 10px 10px 10px 0;
+            border-radius: 5px;
+            border: 1px solid #444;
+            display: inline-block;
+            background: #333;
+            color: #e0e0e0;
+        }
+        .comp-button {
+            margin: 10px 0;
+            padding: 5px 10px;
+            background: #444;
+            color: #f0f0f0;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            display: inline-block;
+            transition: background 0.3s ease;
+        }
+        .comp-button:hover {
+            background: #555;
+        }
+        .switch-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            background: #444;
+            color: #f0f0f0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+            transition: background 0.3s ease;
+        }
+        .switch-button:hover {
+            background: #555;
+        }
+        p {
+            color: #d0d0d0;
+        }
+        b {
+            color: #f0f0f0;
+        }
+    </style>
+    <script>
+        function revealRule(id) {
+            document.getElementById(id).classList.toggle('hidden');
+        }
+        function closePopup() {
+            document.getElementById('overlay').style.display = 'none';
+        }
+        function showPopup() {
+            document.getElementById('overlay').style.display = 'flex';
+        }
+        function showExemptionOptions() {
+            // 检查是否已经创建过选择框
+            if (document.querySelector('.exempt-select')) {
+                return;
+            }
+            const select = document.createElement('select');
+            select.className = 'exempt-select';
+            select.innerHTML = `
+                <option value="">请选择要豁免的攻击形态...</option>
+                <option value="form001">001 异常、袭来</option>
+                <option value="form002">002 重灾区</option>
+                <option value="form003">003 飞蛾扑火</option>
+                <option value="form004">004 神秘预告</option>
+                <option value="form005">005 寄生</option>
+                <option value="form006">006 进化</option>
+            `;
+            
+            const button = document.createElement('button');
+            button.className = 'comp-button';
+            button.textContent = '确认';
+            button.onclick = function() {
+                const selectedRule = select.value;
+                if (selectedRule) {
+                    // 获取规则标题和内容元素
+                    const ruleTitle = document.querySelector(`.rule[onclick*="${selectedRule}"]`);
+                    const ruleContent = document.getElementById(selectedRule);
+                    
+                    // 添加豁免样式
+                    ruleTitle.classList.add('exempted');
+                    if (ruleContent) {
+                        ruleContent.classList.add('exempted');
+                    }
+                    
+                    alert(`本日 ${selectedRule} 对您无效`);
+                    // 移除选择框、确认按钮和完成按钮
+                    select.remove();
+                    button.remove();
+                    // 移除完成按钮
+                    const completeButton = document.querySelector('#form007 .comp-button');
+                    if (completeButton) {
+                        completeButton.remove();
+                    }
+                }
+            };
+
+            const container = document.getElementById('form007');
+            container.appendChild(select);
+            container.appendChild(button);
+        }
+        function submitRule005Guess() {
+            const guess = prompt("请输入你对005形态的猜测：");
+            if (guess && guess.includes("002")) {
+                const form005Content = document.getElementById('form005');
+                
+                form005Content.innerHTML = "经核实：<b>本周它寄生在002形态中，将002中的阈值更改为你的前一日走路步数。</b>委员会已将其收容，本周你将不再受到它的影响。";
+                
+                // 添加豁免样式
+                const form005Title = document.querySelector('.rule[onclick*="form005"]');
+                form005Title.classList.add('exempted');
+                form005Content.classList.add('exempted');
+                
+                // 移除提交按钮
+                const submitButton = document.querySelector('#form005 .comp-button');
+                if (submitButton) {
+                    submitButton.remove();
+                }
+            } else {
+                alert("经过委员会核实，您的猜测不正确，请继续尝试！");
+            }
+        }
+        function submitRule006Guess() {
+            const guess = prompt("请输入你对006形态的猜测：");
+            if (guess && 
+                (guess.includes("AI") || guess.includes("聊天") || guess.includes("对话")) &&
+                (guess.includes("编码") || guess.includes("解码") || guess.includes("乱码") || guess.includes("输出"))) {
+                
+                const form006Content = document.getElementById('form006');
+                
+                form006Content.innerHTML = "经核实：<b>本次进化中它的触发条件为：如果1天使用AI聊天对话超过100轮，回答将被「影子」的006形态接管，从而无法正常输出内容。</b>委员会已将其收容，下次进化前，即三日内，你将不再受到它的影响。";
+                
+                // 添加豁免样式
+                const form006Title = document.querySelector('.rule[onclick*="form006"]');
+                form006Title.classList.add('exempted');
+                form006Content.classList.add('exempted');
+                
+                // 移除提交按钮
+                const submitButton = document.querySelector('#form006 .comp-button');
+                if (submitButton) {
+                    submitButton.remove();
+                }
+            } else {
+                alert("经过委员会核实，您的猜测不正确，请继续尝试！");
+            }
+        }
+    </script>
+</head>
+<body>
+    <button class="switch-button" onclick="window.location.href='index.html'">切换到光明版</button>
+    <div id="overlay" class="overlay">
+        <div class="popup">
+            <p>近日，多地发现<b>不明生物入侵</b>。据报道，该生物表现出进攻性拟态，通常潜伏于各类电子设备中，以图标、界面、声音等方式伪装为各类应用程序，<b>以观看者的注意力和时间为食。</b>该生物的真实意图和危险程度仍在调查中。</p>
+            <p>事件发生以来，委员会高度关注，第一时间启动紧急预案，有序开展各项应对工作。</p>
+            <p>委员会通过决议，将该生物命名为<b>「影子」</b>。</p>
+            <p>委员会收集了各地前线特工的观察报告，对已知和未知信息进行了汇总，并以不同的形态为条目进行了整理。现公布如下，请注意防范。</p>
+            <p class="signature">——异常收容委员会</p>
+            <button onclick="closePopup()">查看档案</button>
+        </div>
+    </div>
+    <div class="container">
+        <h1>「影子」档案</h1>
+        <p><b onclick="showPopup()" style="color: #007BFF;">委员会</b>收集了各地前线特工的观察报告，对已知和未知信息进行了汇总，并以不同的形态为条目进行了整理：</p>
+        <div class="rule" onclick="revealRule('form000')" style="background-image: url(img/000.png);">000  不完整的档案</div>
+        <p id="form000" class="hidden"><b>对于「影子」的调查仍在持续进行中，因此我们收集的信息并不完整。</b>如果你发现任何新的异常，请及时上报，我们会派人进行核实并收录。</p>
+        <div class="rule" onclick="revealRule('form001')" style="background-image: url(img/001.png);">001  异常、袭来</div>
+        <p id="form001" class="hidden"><b>当你工作时长过长且进展缓慢时，「影子」入侵的几率将大大提高。</b>如果发现您正在使用的软件出现异常形态，请立刻关闭。有研究表明，<b>户外仪式有助于驱散该形态</b></p>
+        <div class="rule" onclick="revealRule('form002')" style="background-image: url(img/002.png);">002  重灾区</div>
+        <p id="form002" class="hidden">社交媒体平台是「影子」的主要入侵媒介。据初步研究，<b>如果在它潜伏的平台中连续点击超过200次，将召唤出其002形态，并劫持您的设备。</b></p>
+        <div class="rule" onclick="revealRule('form003')" style="background-image: url(img/011.png);">003  飞蛾扑火</div>
+        <div id="form003" class="hidden">
+            <p>如果你在之前已遭到过多次袭击，那么你的设备很可能被留下一种残留物，即003形态。<b>该残留物易被电源吸引，但同时也会被电源反噬，故又名「飞蛾」。</b></p>
+            <p><b>0点到4点它将被激活，如果你此时使用设备，它将借机占据电源。</b>而完全吞噬需要12小时，在此期间将无法充电。</p>
+        </div>
+        <div class="rule" onclick="revealRule('form004')" style="background-image: url(img/006.png);">004  神秘预告</div>
+        <p id="form004" class="hidden">该形态十分嚣张，它会在每日晚间发出神秘预告。而这些预告在第二日将得到应验。对此委员会建议尽量遵守其预告。<b>今日预告为：9点之后的早餐不叫早餐。</b></p>
+        <div class="rule" onclick="revealRule('form005')" style="background-image: url(img/012.png);">005  寄生</div>
+        <div id="form005" class="hidden">
+            <p>该形态不会单独出现，而是寄生在其他某种形态中。<b>每周它都会更换宿主，并改变宿主的触发条件。</b>幸运的是，委员会已经掌握了对该形态的定向收容技术。</p>
+            <p>本周其宿主尚不清楚。如果你发现了该形态，请上报您的猜测。核实后，我们将实施收容。届时，你将免于该形态的攻击。
+                <button class="comp-button" onclick="submitRule005Guess()">提交猜测</button>
+            </p>
+        </div>
+        <div class="rule" onclick="revealRule('form006')" style="background-image: url(img/013.png);">006  进化</div>
+        <div id="form006" class="hidden">
+            <p>委员会已掌握对该形态的收容技术，<b>然而它却在不断进化中。</b></p>
+            <p>目前其触发条件尚不清楚，如果你发现了该形态，请上报您的猜测。核实后，我们将实施收容。在下次进化前，即收容后的三天内，你将免于其攻击。
+                <button class="comp-button" onclick="submitRule006Guess()">提交猜测</button>
+            </p>
+        </div>
+        <div class="rule" onclick="revealRule('form007')" style="background-image: url(img/009.png);">007  高枕无忧</div>
+        <p id="form007" class="hidden">
+            根据一项最新研究，睡眠将大大提高你的防御能力。<b>一般地，如果你睡眠超过8小时，则来自「影子」的攻击将对你无效，但仅限于你该日遇到的第一种形态。</b>
+            <button class="comp-button" onclick="showExemptionOptions()">完成</button>
+        </p>
+    </div>
+</body>
+</html>
+

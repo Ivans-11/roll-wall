@@ -152,6 +152,23 @@
             border-radius: 5px;
             border-left: 3px solid #007BFF;
         }
+        .switch-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1001;
+        }
+        .switch-button:hover {
+            background: #0056b3;
+        }
     </style>
     <script>
         function revealRule(id) {
@@ -441,6 +458,7 @@
     </script>
 </head>
 <body>
+    <button class="switch-button" onclick="window.location.href='shadow.html'">切换到暗影版</button>
     <div id="overlay" class="overlay">
         <div class="popup">
             <p><b>你终于来了。</b><br>当你点开这段文字，观测者便已记录下你的存在。<br></p>
