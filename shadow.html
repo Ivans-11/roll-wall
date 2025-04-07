@@ -253,8 +253,7 @@
         function submitRule006Guess() {
             const guess = prompt("请输入你对006形态的猜测：");
             if (guess && 
-                (guess.includes("AI") || guess.includes("聊天") || guess.includes("对话")) &&
-                (guess.includes("编码") || guess.includes("解码") || guess.includes("乱码") || guess.includes("输出"))) {
+                (guess.includes("AI") || guess.includes("聊天") || guess.includes("对话"))) {
                 
                 const form006Content = document.getElementById('form006');
                 
